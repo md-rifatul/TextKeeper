@@ -7,12 +7,19 @@ namespace TextKeeper.Controllers
     {
 
         private readonly string _stroagePath;
+        private readonly string _backupPath;
         public FileController(IConfiguration config)
         {
             _stroagePath = Path.Combine(Directory.GetCurrentDirectory(), config["FileStoragePath"]);
+            _backupPath = Path.Combine(Directory.GetCurrentDirectory(), config["BackupStoregePath"]);
+
             if (!Directory.Exists(_stroagePath))
             {
                 Directory.CreateDirectory(_stroagePath);
+            }
+            if (!Directory.Exists(_backupPath))
+            {
+                Directory.CreateDirectory(_backupPath);
             }
 
         }
@@ -69,8 +76,10 @@ namespace TextKeeper.Controllers
         public IActionResult Delete(string fileName)
         {
             var filePath = Path.Combine(_stroagePath,fileName);
+            var backupFilePath = Path.Combine(_backupPath,fileName);
             if (System.IO.File.Exists(filePath))
             {
+                System.IO.File.Move(filePath, backupFilePath,overwrite:true);
                 System.IO.File.Delete(filePath);
             }
             return RedirectToAction("Index");
