@@ -1,23 +1,51 @@
 ﻿@model List<string>
 @{
-    ViewData["Title"] = "File Manager";
+    ViewData["Title"] = "Recycle Bin";
 }
 
-<h2>Recycle Bin</h2>
+<div class="container mx-auto p-6">
+    <!-- Page Title -->
+    <h2 class="text-3xl font-bold mb-6 text-center text-red-600">🗑 Recycle Bin</h2>
 
-<form method="get" asp-action="Backup">
-    <input type="text" name="search" placeholder="Search files..." />
-    <button type="submit">Search</button>
-</form>
+    <!-- Search Bar -->
+    <form method="get" asp-action="Backup"
+          class="flex flex-col md:flex-row gap-3 items-center justify-center mb-6">
+        <input type="text"
+               name="search"
+               placeholder="🔍 Search deleted files..."
+               class="w-full md:w-1/2 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" />
+        <button type="submit"
+                class="px-6 py-2 bg-red-500 text-black rounded-lg shadow hover:bg-red-600 transition">
+            Search
+        </button>
+    </form>
 
-<ul>
-    @foreach (var file in Model)
-    {
-        <li>
-            @file
-            <a asp-action="PermanentDelete" asp-route-fileName="@file">Delete</a>
-            <a asp-action="Resotre" asp-route-fileName="@file">Resotre</a>
-            <a asp-action="ReciclyBinFileView" asp-route-fileName="@file">View</a>
-        </li>
-    }
-</ul>
+    <!-- File List -->
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <ul class="divide-y divide-gray-200">
+            @foreach (var file in Model)
+            {
+                <li class="flex flex-col md:flex-row md:items-center justify-between px-4 py-3 hover:bg-gray-50 transition">
+                    <!-- File Name -->
+                    <span class="font-medium text-gray-700 truncate">@file</span>
+
+                    <!-- Actions -->
+                    <div class="flex gap-3 mt-2 md:mt-0">
+                        <a asp-action="PermanentDelete" asp-route-fileName="@file"
+                           class="px-3 py-1 bg-red-500 text-black text-sm rounded-lg shadow hover:bg-red-600 transition">
+                            ❌ Delete Permanently
+                        </a>
+                        <a asp-action="Resotre" asp-route-fileName="@file"
+                           class="px-3 py-1 bg-green-500 text-black text-sm rounded-lg shadow hover:bg-green-600 transition">
+                            ♻️ Restore
+                        </a>
+                        <a asp-action="ReciclyBinFileView" asp-route-fileName="@file"
+                           class="px-3 py-1 bg-blue-500 text-black text-sm rounded-lg shadow hover:bg-blue-600 transition">
+                            👁 View
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
