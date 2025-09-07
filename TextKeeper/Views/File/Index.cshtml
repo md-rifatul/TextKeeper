@@ -1,24 +1,48 @@
-﻿You said:
-@model List<string>
+﻿@model List<string>
 @{
     ViewData["Title"] = "File Manager";
 }
 
-<h2>Files</h2>
+<div class="container mx-auto p-6">
+    <!-- Page Title -->
+    <h2 class="text-3xl font-bold mb-6 text-center">📂 File Manager</h2>
 
-<form method="get" asp-action="Index">
-    <input type="text" name="search" placeholder="Search files..." />
-    <button type="submit">Search</button>
-</form>
+    <!-- Search Bar -->
+    <form method="get" asp-action="Index" class="flex flex-col md:flex-row gap-3 items-center justify-center mb-6">
+        <input type="text"
+               name="search"
+               placeholder="🔍 Search files..."
+               class="w-full md:w-1/2 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <button type="submit"
+                class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">
+            Search
+        </button>
+    </form>
 
+    <!-- File List -->
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <ul class="divide-y divide-gray-200">
+            @foreach (var file in Model)
+            {
+                <li class="flex flex-col md:flex-row md:items-center justify-between px-4 py-3 hover:bg-gray-50 transition">
+                    <span class="font-medium text-gray-700 truncate">@file</span>
 
-<ul>
-    @foreach (var file in Model)
-    {
-        <li>
-            @file
-            <a asp-action="Edit" asp-route-fileName="@file">Edit</a> |
-            <a asp-action="Delete" asp-route-fileName="@file">Delete</a>
-        </li>
-    }
-</ul>
+                    <div class="flex gap-3 mt-2 md:mt-0">
+                        <a asp-action="Edit" asp-route-fileName="@file"
+                           class="px-3 py-1 bg-yellow-400 text-black text-sm rounded-lg shadow hover:bg-yellow-500 transition">
+                            ✏️ Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-fileName="@file"
+                           class="px-3 py-1 bg-red-500 text-black text-sm rounded-lg shadow hover:bg-red-600 transition">
+                            🗑 Delete
+                        </a>
+                        <a asp-action="FileView" asp-route-fileName="@file"
+                           class="px-3 py-1 bg-green-500 text-black text-sm rounded-lg shadow hover:bg-green-600 transition">
+                            👁 View
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

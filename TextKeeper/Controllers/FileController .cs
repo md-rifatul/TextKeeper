@@ -119,5 +119,19 @@ namespace TextKeeper.Controllers
             }
             return RedirectToAction("Backup");
         }
+
+        public IActionResult FileView(string fileName)
+        {
+            var filePath = Path.Combine(_stroagePath, fileName);
+            var content = System.IO.File.ReadAllText(filePath);
+            return Content(content);
+        }
+
+        public IActionResult ReciclyBinFileView(string fileName)
+        {
+            var filePath = Path.Combine(_backupPath, fileName);
+            var content = System.IO.File.ReadAllText(filePath);
+            return Content(content);
+        }
     }
 }
