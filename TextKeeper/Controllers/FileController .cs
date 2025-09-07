@@ -109,5 +109,15 @@ namespace TextKeeper.Controllers
             }
             return RedirectToAction("Backup");
         }
+        public IActionResult Resotre(string fileName)
+        {
+            var backupFilePath = Path.Combine(_backupPath, fileName);
+            var stroageFilePath = Path.Combine(_stroagePath, fileName);
+            if (System.IO.File.Exists(backupFilePath))
+            {
+                System.IO.File.Move(backupFilePath, stroageFilePath,overwrite:true);
+            }
+            return RedirectToAction("Backup");
+        }
     }
 }
