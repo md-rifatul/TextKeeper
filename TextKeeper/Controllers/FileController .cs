@@ -58,5 +58,15 @@ namespace TextKeeper.Controllers
             System.IO.File.WriteAllText(filePath,model.Content);
             return RedirectToAction("Index");
         }
+
+        public IActionResult Delete(string fileName)
+        {
+            var filePath = Path.Combine(_stroagePath,fileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

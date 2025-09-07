@@ -1,0 +1,24 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "File Manager";
+}
+
+<h2>Files</h2>
+
+<form method="get" asp-action="Index">
+    <input type="text" name="search" placeholder="Search files..." />
+    <button type="submit">Search</button>
+</form>
+
+<a asp-action="Create">Create New File</a>
+
+<ul>
+    @foreach (var file in Model)
+    {
+        <li>
+            @file
+            <a asp-action="Edit" asp-route-fileName="@file">Edit</a> |
+            <a asp-action="Delete" asp-route-fileName="@file">Delete</a>
+        </li>
+    }
+</ul>
