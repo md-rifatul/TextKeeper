@@ -10,10 +10,11 @@ namespace TextKeeper.Controllers
         public FileController(IConfiguration config)
         {
             _stroagePath = Path.Combine(Directory.GetCurrentDirectory(), config["FileStoragePath"]);
-            if (Directory.Exists(_stroagePath))
+            if (!Directory.Exists(_stroagePath))
             {
                 Directory.CreateDirectory(_stroagePath);
             }
+
         }
         public IActionResult Index(string search)
         {
@@ -48,16 +49,22 @@ namespace TextKeeper.Controllers
             var filePath = Path.Combine(_stroagePath, fileName);
             var content = System.IO.File.ReadAllText(filePath);
 
-            var model = new TextFile { FileName = Path.GetFileNameWithoutExtension(fileName),Content = content };
+            var model = new TextFile
+            {
+                FileName = fileName,
+                Content = content
+            };
             return View(model);
         }
+
         [HttpPost]
         public IActionResult Edit(TextFile model)
         {
-            var filePath =  Path.Combine(_stroagePath,model.FileName+".txt");
-            System.IO.File.WriteAllText(filePath,model.Content);
+            var filePath = Path.Combine(_stroagePath, model.FileName);
+            System.IO.File.WriteAllText(filePath, model.Content);
             return RedirectToAction("Index");
         }
+
 
         public IActionResult Delete(string fileName)
         {

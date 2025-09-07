@@ -1,14 +1,11 @@
 ﻿@model TextFile
-<h2>Edit File</h2>
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="FileName" />
     <label>File Name: @Model.FileName</label>
     <br />
-
     <label>Content:</label><br />
-    <textarea asp-for="Content" rows="8" cols="50"></textarea>
+    <textarea asp-for="Content" rows="30" cols="200"></textarea>
     <br />
-
     <button type="submit">Update</button>
 </form>
