@@ -84,5 +84,30 @@ namespace TextKeeper.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public IActionResult BackUp(string search)
+        {
+            var files = Directory.GetFiles(_backupPath, "*.txt");
+            var fileList = files.Select(f => Path.GetFileName(f)).ToList();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                fileList = fileList
+                           .Where(f => f.Contains(search, StringComparison.OrdinalIgnoreCase))
+                           .ToList();
+
+            }
+            return View(fileList);
+        }
+        public IActionResult PermanentDelete(string fileName)
+        {
+            
+            var backupFilePath = Path.Combine(_backupPath, fileName);
+            if (System.IO.File.Exists(backupFilePath))
+            {
+                System.IO.File.Delete(backupFilePath);
+            }
+            return RedirectToAction("Backup");
+        }
     }
 }
